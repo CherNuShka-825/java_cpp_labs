@@ -17,7 +17,7 @@ public class WordRate {
         return rate;
     }
 
-    public void ratePluseOdin() {
+    public void increment() {
         rate++;
     }
 

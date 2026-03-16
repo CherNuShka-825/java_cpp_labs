@@ -1,6 +1,7 @@
 package main;
 
 import java.io.*;
+import java.util.*;
 
 
 public class Main {
@@ -10,8 +11,10 @@ public class Main {
                 Writer writer = new BufferedWriter(new FileWriter("src/out.txt"))
         ) {
 
-            ConverterToCSV converter = new ConverterToCSV(reader, writer);
-            converter.convert();
+            ReaderToSet converter = new ReaderToSet(reader);
+            Set<WordRate> set = converter.convert();
+            WriterCSV writeOut = new WriterCSV(writer);
+            writeOut.fillOut(set);
 
         } catch (IOException e) {
             System.err.println("Error while reading file: " + e.getLocalizedMessage());
