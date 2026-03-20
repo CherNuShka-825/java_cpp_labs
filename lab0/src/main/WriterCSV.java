@@ -22,9 +22,10 @@ public class WriterCSV {
 
         for (WordRate word : list) {
             double proc = (double) word.getRate() / sum;
-            writer.write(word.getWord() + ";" + word.getRate() + ";" + String.format(Locale.US, "%.4f", proc));
+            writer.write(word.getWord() + ";"
+                    + word.getRate() + ";"
+                    + String.format(Locale.US, "%.4f", proc));
             writer.write("\n");
         }
     }
-
 }
