@@ -1,22 +1,25 @@
-package main;
+package convert;
 
 import java.io.*;
 import java.util.*;
 
 
-public class ReaderToSet {
+public class ReaderText {
     private Reader reader;
     private Set<WordRate> set;
+    private int totalWords;
 
-    public ReaderToSet(Reader reader) {
+    public ReaderText(Reader reader) {
         this.reader = reader;
-        this.set = new HashSet<WordRate>();
+        this.set = new HashSet<>();
     }
 
     private void processWord(StringBuilder str) {
         if (str.isEmpty()) {
             return;
         }
+
+        totalWords++;
 
         WordRate word = new WordRate(str.toString());
 
@@ -46,8 +49,12 @@ public class ReaderToSet {
         processWord(str);
     }
 
-    public Set<WordRate> convert() throws IOException {
+    public Set<WordRate> read() throws IOException {
         fillSet();
+
+        for (WordRate word : set) {
+            word.setPercent((double) word.getRate() / totalWords);
+        }
         return set;
     }
 }

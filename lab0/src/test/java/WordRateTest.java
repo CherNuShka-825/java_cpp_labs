@@ -1,6 +1,4 @@
-package test;
-
-import main.WordRate;
+import convert.WordRate;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

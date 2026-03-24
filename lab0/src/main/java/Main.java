@@ -1,4 +1,6 @@
-package main;
+import convert.ReaderText;
+import convert.WordRate;
+import convert.WriterCSV;
 
 import java.io.*;
 import java.util.*;
@@ -11,8 +13,8 @@ public class Main {
                 Writer writer = new BufferedWriter(new FileWriter("src/out.txt"))
         ) {
 
-            ReaderToSet converter = new ReaderToSet(reader);
-            Set<WordRate> set = converter.convert();
+            ReaderText readerWords = new ReaderText(reader);
+            Set<WordRate> set = readerWords.read();
             WriterCSV writeOut = new WriterCSV(writer);
             writeOut.fillOut(set);
 

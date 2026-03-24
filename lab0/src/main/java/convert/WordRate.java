@@ -1,8 +1,9 @@
-package main;
+package convert;
 
 public class WordRate {
     private final String word;
     private int rate;
+    private double percent;
 
     public WordRate(String word) {
         this.word = word;
@@ -19,6 +20,14 @@ public class WordRate {
 
     public void increment() {
         rate++;
+    }
+
+    public void setPercent(double percent) {
+        this.percent = percent;
+    }
+
+    public double getPercent() {
+        return percent;
     }
 
     @Override
