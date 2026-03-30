@@ -13,29 +13,29 @@ public class Context {
     private final Map<String, Double> variables = new HashMap<>();
 
     //stack
-    public void push(double value) {
+    public void pushStack(double value) {
         stack.push(value);
-        logger.fine("push: " + value);
+        logger.fine("pushStack: " + value);
     }
 
-    public double pop() throws CommandException {
+    public double popStack() throws CommandException {
         if (stack.isEmpty()) {
-            logger.warning("pop failed: stack is empty");
+            logger.warning("popStack failed: stack is empty");
             throw new CommandException("Stack is empty");
         }
         double val = stack.pop();
-        logger.fine("pop: " + val);
+        logger.fine("popStack: " + val);
         return val;
     }
 
-    public double peek() throws CommandException {
+    public double peekStack() throws CommandException {
         if (stack.isEmpty()) {
-            logger.warning("peek failed: stack is empty");
+            logger.warning("peekStack failed: stack is empty");
             throw new CommandException("Stack is empty");
         }
 
         double val = stack.peek();
-        logger.fine("peek: " + val);
+        logger.fine("peekStack: " + val);
         return val;
     }
 

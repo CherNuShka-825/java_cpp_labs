@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.logging.*;
 
 public class LogConfig {
@@ -19,10 +18,10 @@ public class LogConfig {
             FileHandler fileHandler = new FileHandler(createFileName(), true);
             fileHandler.setFormatter(new SimpleFormatter());
 
-            ConsoleHandler consoleHandler = new ConsoleHandler();
+            //ConsoleHandler consoleHandler = new ConsoleHandler();
 
             rootLogger.addHandler(fileHandler);
-            rootLogger.addHandler(consoleHandler);
+            //rootLogger.addHandler(consoleHandler);
 
             rootLogger.setLevel(Level.ALL);
         } catch (IOException e) {

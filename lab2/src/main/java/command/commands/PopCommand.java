@@ -17,7 +17,7 @@ public class PopCommand implements Command {
             throw new CommandException("POP expected 0 args, got " + args.length);
         }
 
-        double a = context.pop();
+        double a = context.popStack();
         logger.info("POP: " + a);
     }
 

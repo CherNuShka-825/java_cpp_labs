@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.logging.Logger;
-
 public class Main {
 
     private static final Logger logger = Logger.getLogger(Main.class.getName());
@@ -22,28 +21,18 @@ public class Main {
             return;
         }
 
-        Scanner scanner;
-        try {
-            scanner = createScanner(args);
+        try (Scanner scanner = createScanner(args)) {
+            CommandFactory factory = new CommandFactory("factoryConfig");
+            Calculator calculator = new Calculator(factory);
+            calculator.run(scanner);
         } catch (FileNotFoundException e) {
             logger.severe("File not found: " + args[0]);
             System.err.println("File not found: " + args[0]);
-            return;
-        }
-
-        try {
-            logger.info("Initializing factory");
-            CommandFactory factory = new CommandFactory("factoryConfig");
-
-            logger.info("Creating calculator");
-            Calculator calculator = new Calculator(factory);
-
-            logger.info("Starting calculator");
-            calculator.run(scanner);
         } catch (FactoryException e) {
             logger.severe("Failed to initialize calculator: " + e.getMessage());
             System.err.println("Failed to initialize calculator: " + e.getMessage());
         }
+
         logger.info("Application finished");
     }
 

@@ -17,7 +17,7 @@ public class SqrtCommand implements Command {
             throw new CommandException("SQRT expected 0 args, got " + args.length);
         }
 
-        double a = context.pop();
+        double a = context.popStack();
 
         if (a < 0) {
             logger.warning("SQRT square root of negative number: " + a);
@@ -25,7 +25,7 @@ public class SqrtCommand implements Command {
         }
 
         double res = Math.sqrt(a);
-        context.push(res);
+        context.pushStack(res);
         logger.info("SQRT: " + a + " = " + res);
     }
 

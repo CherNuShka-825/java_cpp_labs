@@ -17,7 +17,7 @@ public class PrintCommand implements Command {
             throw new CommandException("PRINT expected 0 args, got " + args.length);
         }
 
-        double a = context.peek();
+        double a = context.peekStack();
         System.out.println(a);
         logger.info("Print: " + a);
     }

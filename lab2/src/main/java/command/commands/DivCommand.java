@@ -17,15 +17,15 @@ public class DivCommand implements Command {
             throw new CommandException("/ expected 0 args, got " + args.length);
         }
 
-        if (context.peek() == 0) {
+        if (context.peekStack() == 0) {
             logger.warning("/ division by zero");
             throw new CommandException("/ division by zero");
         }
 
-        double a = context.pop();
-        double b = context.pop();
+        double a = context.popStack();
+        double b = context.popStack();
         double res = b / a;
-        context.push(res);
+        context.pushStack(res);
         logger.info("/: " + b + " / " + a + " = " + res);
     }
 

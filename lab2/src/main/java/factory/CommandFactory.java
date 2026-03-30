@@ -17,7 +17,7 @@ public class CommandFactory {
     public CommandFactory(String factory) throws FactoryException {
         logger.info("Loading factory config: " + factory);
 
-        try (InputStream is = CommandFactory.class.getResourceAsStream(factory)) {
+        try (InputStream is = CommandFactory.class.getClassLoader().getResourceAsStream(factory)) {
             if (is == null) {
                 logger.severe("Config file not found: " + factory);
                 throw new FactoryException("Config file not found: " + factory);
@@ -53,10 +53,10 @@ public class CommandFactory {
 
         } catch (ClassNotFoundException e) {
             logger.severe("Class not found: " + command);
-            throw new FactoryException("command.Command class not found: " + command, e);
+            throw new FactoryException("Class not found: " + command, e);
 
         } catch (ReflectiveOperationException e) {
-            logger.severe("Cannot create command: " + command);
+            logger.severe("Command class not found: " + command);
             throw new FactoryException("Cannot create command: " + command, e);
 
         } catch (ClassCastException e) {

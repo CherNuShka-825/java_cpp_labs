@@ -4,7 +4,6 @@ import command.Command;
 import command.Context;
 import exceptions.CommandException;
 
-import java.util.Map;
 import java.util.logging.Logger;
 
 public class MulCommand implements Command {
@@ -18,10 +17,10 @@ public class MulCommand implements Command {
             throw new CommandException("* expected 0 args, got " + args.length);
         }
 
-        double a = context.pop();
-        double b = context.pop();
+        double a = context.popStack();
+        double b = context.popStack();
         double res = b * a;
-        context.push(res);
+        context.pushStack(res);
         logger.info("*: " + b + " * " + a + " = " + res);
     }
 

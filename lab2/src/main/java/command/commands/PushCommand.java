@@ -26,7 +26,7 @@ public class PushCommand implements Command {
             value = context.getVariable(args[0]);
         }
 
-        context.push(value);
+        context.pushStack(value);
         logger.info("PUSH: " + value);
     }
 
