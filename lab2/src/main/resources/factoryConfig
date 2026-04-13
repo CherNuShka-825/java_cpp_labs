@@ -1,0 +1,9 @@
++=command.commands.AddCommand
+DEFINE=command.commands.DefineCommand
+/=command.commands.DivCommand
+*=command.commands.MulCommand
+POP=command.commands.PopCommand
+PRINT=command.commands.PrintCommand
+PUSH=command.commands.PushCommand
+SQRT=command.commands.SqrtCommand
+-=command.commands.SubCommand
