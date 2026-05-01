@@ -1,6 +1,7 @@
-package ru.nsu.ccfit.kombarov.tetris.model.tetromino;
+package ru.nsu.ccfit.kombarov.tetris.model.tetromino.shapes;
 
 import ru.nsu.ccfit.kombarov.tetris.model.Coordinate;
+import ru.nsu.ccfit.kombarov.tetris.model.tetromino.Tetromino;
 
 public class ITetromino extends Tetromino {
 

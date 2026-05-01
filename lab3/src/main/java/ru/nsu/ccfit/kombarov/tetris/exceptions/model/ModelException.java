@@ -1,6 +1,6 @@
 package ru.nsu.ccfit.kombarov.tetris.exceptions.model;
 
-public class ModelException extends Exception {
+public class ModelException extends RuntimeException {
 
     public ModelException(String message) {
         super(message);

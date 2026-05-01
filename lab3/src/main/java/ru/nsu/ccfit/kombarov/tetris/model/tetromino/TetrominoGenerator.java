@@ -1,6 +1,7 @@
 package ru.nsu.ccfit.kombarov.tetris.model.tetromino;
 
 import ru.nsu.ccfit.kombarov.tetris.exceptions.model.FactoryException;
+import ru.nsu.ccfit.kombarov.tetris.exceptions.model.ModelException;
 import ru.nsu.ccfit.kombarov.tetris.exceptions.model.TetrominoExeption;
 import ru.nsu.ccfit.kombarov.tetris.model.facrory.TetrominoFactory;
 
@@ -18,14 +19,18 @@ public class TetrominoGenerator {
         this.factory = factory;
     }
 
-    public Tetromino oneFromBag(int x, int y) throws TetrominoExeption, FactoryException {
-        if (tetrominoBag.isEmpty()) {
-            fillTetrominoBag();
+    public Tetromino oneFromBag(int x, int y) {
+        try {
+            if (tetrominoBag.isEmpty()) {
+                fillTetrominoBag();
+            }
+
+            String type = tetrominoBag.removeLast();
+            return factory.create(type, x, y);
+
+        } catch (FactoryException | TetrominoExeption e) {
+            throw new ModelException("Generator failed", e);
         }
-
-        String type = tetrominoBag.removeLast();
-
-        return factory.create(type, x, y);
     }
 
     private void fillTetrominoBag() throws TetrominoExeption {

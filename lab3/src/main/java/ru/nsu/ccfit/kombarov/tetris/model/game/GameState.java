@@ -1,4 +1,4 @@
-package ru.nsu.ccfit.kombarov.tetris.model;
+package ru.nsu.ccfit.kombarov.tetris.model.game;
 
 public enum GameState {
     NOT_STARTED,

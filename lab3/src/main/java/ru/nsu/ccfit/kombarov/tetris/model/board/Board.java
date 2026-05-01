@@ -1,5 +1,6 @@
-package ru.nsu.ccfit.kombarov.tetris.model;
+package ru.nsu.ccfit.kombarov.tetris.model.board;
 
+import ru.nsu.ccfit.kombarov.tetris.model.Coordinate;
 import ru.nsu.ccfit.kombarov.tetris.model.tetromino.Tetromino;
 
 public class Board {

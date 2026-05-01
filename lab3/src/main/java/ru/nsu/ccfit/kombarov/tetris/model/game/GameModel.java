@@ -1,7 +1,8 @@
-package ru.nsu.ccfit.kombarov.tetris.model;
+package ru.nsu.ccfit.kombarov.tetris.model.game;
 
 import ru.nsu.ccfit.kombarov.tetris.exceptions.model.FactoryException;
 import ru.nsu.ccfit.kombarov.tetris.exceptions.model.TetrominoExeption;
+import ru.nsu.ccfit.kombarov.tetris.model.board.Board;
 import ru.nsu.ccfit.kombarov.tetris.model.tetromino.Tetromino;
 import ru.nsu.ccfit.kombarov.tetris.model.tetromino.TetrominoGenerator;
 
@@ -13,10 +14,11 @@ public class GameModel {
     private Tetromino currentTetromino, nextTetromino;
     private GameState state = GameState.NOT_STARTED;
 
-    private int score, level, clearedLines;
+    private final ScoreManager scoreManager = new ScoreManager();
 
-    public GameState getState() {
-        return state;
+    public GameModel(Board board, TetrominoGenerator generator) {
+        this.board = board;
+        this.generator = generator;
     }
 
     public Board getBoard() {
@@ -32,28 +34,37 @@ public class GameModel {
     }
 
     public int getScore() {
-        return score;
+        return scoreManager.getScore();
     }
 
     public int getLevel() {
-        return level;
+        return scoreManager.getLevel();
     }
 
     public int getClearedLines() {
-        return clearedLines;
+        return scoreManager.getClearedLines();
     }
 
-    public GameModel(Board board, TetrominoGenerator generator) {
-        this.board = board;
-        this.generator = generator;
+    public GameState getState() {
+        return state;
     }
 
-    public void newGame() throws FactoryException, TetrominoExeption {
+    public void pause() {
+        if (state == GameState.RUNNING) {
+            state = GameState.PAUSED;
+        }
+    }
+
+    public void resume() {
+        if (state == GameState.PAUSED) {
+            state = GameState.RUNNING;
+        }
+    }
+
+    public void newGame() {
         board.clear();
 
-        score = 0;
-        level = 1;
-        clearedLines = 0;
+        scoreManager.reset();
 
         currentTetromino = generator.oneFromBag(board.getWidth() / 2, 0);
         nextTetromino = generator.oneFromBag(board.getWidth() / 2, 0);
@@ -110,47 +121,17 @@ public class GameModel {
     }
 
     public void tick() throws FactoryException, TetrominoExeption {
-        if (state != GameState.RUNNING) {
-            return;
-        }
-
-        currentTetromino.moveDown();
-
-        if (!board.canPlace(currentTetromino)) {
-            currentTetromino.moveUp();
-
-            board.lock(currentTetromino);
-            int lines = board.clearFullLines();
-            updateScore(lines);
-
-            spawnNext();
-        }
+        int lines = board.clearFullLines();
+        scoreManager.addClearedLines(lines);
     }
 
     private void spawnNext() throws FactoryException, TetrominoExeption {
         currentTetromino = nextTetromino;
+
         nextTetromino = generator.oneFromBag(board.getWidth() / 2, 0);
 
         if (!board.canPlace(currentTetromino)) {
             state = GameState.GAME_OVER;
         }
-    }
-
-    private void updateScore(int lines) {
-        if (lines == 0) {
-            return;
-        }
-
-        clearedLines += lines;
-
-        score += switch (lines) {
-            case 1 -> 100 * level;
-            case 2 -> 300 * level;
-            case 3 -> 500 * level;
-            case 4 -> 800 * level;
-            default -> (800 + (lines - 4) * 100) * level;
-        };
-
-        level = clearedLines / 10 + 1;
     }
 }
