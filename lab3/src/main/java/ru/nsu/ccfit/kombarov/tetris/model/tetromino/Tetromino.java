@@ -11,16 +11,16 @@ public abstract class Tetromino {
     protected int y;
     protected int rotation;
 
-    protected final TetrominoType type;
+    protected final String type;
 
-    protected Tetromino(TetrominoType type, int x, int y) {
+    protected Tetromino(String type, int x, int y) {
         this.type = type;
         this.x = x;
         this.y = y;
         this.rotation = 0;
     }
 
-    public TetrominoType getType() {
+    public String getType() {
         return type;
     }
 
