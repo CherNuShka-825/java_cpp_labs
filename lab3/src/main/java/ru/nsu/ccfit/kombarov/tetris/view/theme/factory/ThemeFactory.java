@@ -1,19 +1,19 @@
-package ru.nsu.ccfit.kombarov.tetris.model.facrory;
+package ru.nsu.ccfit.kombarov.tetris.view.theme.factory;
 
 import ru.nsu.ccfit.kombarov.tetris.exceptions.FactoryException;
-import ru.nsu.ccfit.kombarov.tetris.model.tetromino.Tetromino;
+import ru.nsu.ccfit.kombarov.tetris.view.theme.Theme;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.Set;
 
-public class TetrominoFactory {
+public class ThemeFactory {
 
     private final Properties config = new Properties();
 
-    public TetrominoFactory(String configFile) throws FactoryException {
-        try (InputStream is = TetrominoFactory.class.getClassLoader().getResourceAsStream(configFile)) {
+    public ThemeFactory(String configFile) throws FactoryException {
+        try (InputStream is = ThemeFactory.class.getClassLoader().getResourceAsStream(configFile)) {
             if (is == null) {
                 throw new FactoryException("Config file not found: " + configFile);
             }
@@ -23,30 +23,30 @@ public class TetrominoFactory {
         }
     }
 
-    public Tetromino create(String type, int x, int y) throws FactoryException {
-        String className = config.getProperty(type);
+    public Theme create(String name) throws FactoryException {
+        String className = config.getProperty(name);
 
         if (className == null) {
-            throw new FactoryException("Unknown tetromino type: " + type);
+            throw new FactoryException("Unknown theme: " + name);
         }
 
         try {
             Class<?> clazz = Class.forName(className);
-            Object obj = clazz.getDeclaredConstructor(int.class, int.class).newInstance(x, y);
-            return (Tetromino) obj;
+            Object obj = clazz.getDeclaredConstructor().newInstance();
+            return (Theme) obj;
 
         } catch (ClassNotFoundException e) {
             throw new FactoryException("Class not found: " + className, e);
 
         } catch (ReflectiveOperationException e) {
-            throw new FactoryException("Cannot create tetromino: " + className, e);
+            throw new FactoryException("Cannot create theme: " + className, e);
 
         } catch (ClassCastException e) {
-            throw new FactoryException("Class is not Tetromino: " + className, e);
+            throw new FactoryException("Class is not Theme: " + className, e);
         }
     }
 
-    public Set<String> getAvailableTypes() {
+    public Set<String> getAvailableThemes() {
         return config.stringPropertyNames();
     }
 }

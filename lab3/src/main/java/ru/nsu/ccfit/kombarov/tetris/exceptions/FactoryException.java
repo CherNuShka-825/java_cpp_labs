@@ -1,6 +1,6 @@
-package ru.nsu.ccfit.kombarov.tetris.exceptions.model;
+package ru.nsu.ccfit.kombarov.tetris.exceptions;
 
-public class FactoryException extends ModelException{
+public class FactoryException extends TetrisException {
 
     public FactoryException(String messege) {
         super(messege);

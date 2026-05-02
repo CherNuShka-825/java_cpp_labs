@@ -75,5 +75,42 @@ public abstract class Tetromino {
         return blocks;
     }
 
+    public Tetromino copy() {
+        Tetromino copy = createSameType(x, y);
+        copy.rotation = this.rotation;
+        return copy;
+    }
+
+    public int getWidth() {
+        Coordinate[] shape = getShapes()[rotation];
+
+        int maxX = 0;
+
+        for (Coordinate c : shape) {
+            maxX = Math.max(maxX, c.getX());
+        }
+
+        return maxX + 1;
+    }
+
+    public int getHeight() {
+        Coordinate[] shape = getShapes()[rotation];
+
+        int maxY = 0;
+
+        for (Coordinate c : shape) {
+            maxY = Math.max(maxY, c.getY());
+        }
+
+        return maxY + 1;
+    }
+
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
     protected abstract Coordinate[][] getShapes();
+
+    protected abstract Tetromino createSameType(int x, int y);
 }

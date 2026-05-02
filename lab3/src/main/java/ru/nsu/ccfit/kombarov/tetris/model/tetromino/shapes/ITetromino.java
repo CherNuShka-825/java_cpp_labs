@@ -33,11 +33,16 @@ public class ITetromino extends Tetromino {
     };
 
     public ITetromino(int x, int y) {
-        super(TetrominoType.I, x, y);
+        super("I", x, y);
     }
 
     @Override
     protected Coordinate[][] getShapes() {
         return SHAPES;
+    }
+
+    @Override
+    protected Tetromino createSameType(int x, int y) {
+        return new ITetromino(x, y);
     }
 }
