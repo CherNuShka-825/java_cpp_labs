@@ -18,6 +18,10 @@ public class GameModel {
 
     private final ScoreManager scoreManager = new ScoreManager();
 
+    private final GameTimer gameTimer = new GameTimer();
+
+    private Runnable onBlockLocked;
+
     public GameModel(Board board, TetrominoGenerator generator) {
         this.board = board;
         this.generator = generator;
@@ -33,6 +37,16 @@ public class GameModel {
 
     public Tetromino getNextTetromino() {
         return nextTetromino;
+    }
+
+    public Tetromino getGhostTetromino() {
+        if (currentTetromino == null) {
+            return null;
+        }
+
+        Tetromino ghost = currentTetromino.copy();
+        moveToDropPosition(ghost);
+        return ghost;
     }
 
     public int getScore() {
@@ -51,17 +65,32 @@ public class GameModel {
         return state;
     }
 
+    public String getFormattedTime() {
+        return gameTimer.getFormattedTime();
+    }
+
+    public void setOnBlockLocked(Runnable onBlockLocked) {
+        this.onBlockLocked = onBlockLocked;
+    }
+
     public void pause() {
-        state = GameState.PAUSED;
+        if (state != GameState.PAUSED) {
+            state = GameState.PAUSED;
+            gameTimer.pause();
+        }
     }
 
     public void resume() {
-        state = GameState.RUNNING;
+        if (state != GameState.RUNNING) {
+            state = GameState.RUNNING;
+            gameTimer.resume();
+        }
     }
 
     public void newGame() throws FactoryException, TetrominoExeption {
         board.clear();
         scoreManager.reset();
+        gameTimer.start();
 
         currentTetromino = spawnCentered();
         nextTetromino = spawnCentered();
@@ -75,6 +104,10 @@ public class GameModel {
     }
 
     public void moveLeft() {
+        if (state != GameState.RUNNING) {
+            return;
+        }
+
         currentTetromino.moveLeft();
 
         if (!board.canPlace(currentTetromino)) {
@@ -83,6 +116,10 @@ public class GameModel {
     }
 
     public void moveRight() {
+        if (state != GameState.RUNNING) {
+            return;
+        }
+
         currentTetromino.moveRight();
 
         if (!board.canPlace(currentTetromino)) {
@@ -90,7 +127,39 @@ public class GameModel {
         }
     }
 
+    public void moveDownLeft() {
+        if (state != GameState.RUNNING) {
+            return;
+        }
+
+        currentTetromino.moveLeft();
+        currentTetromino.moveDown();
+
+        if (!board.canPlace(currentTetromino)) {
+            currentTetromino.moveUp();
+            currentTetromino.moveRight();
+        }
+    }
+
+    public void moveDownRight() {
+        if (state != GameState.RUNNING) {
+            return;
+        }
+
+        currentTetromino.moveRight();
+        currentTetromino.moveDown();
+
+        if (!board.canPlace(currentTetromino)) {
+            currentTetromino.moveUp();
+            currentTetromino.moveLeft();
+        }
+    }
+
     public void rotateClockwise() {
+        if (state != GameState.RUNNING) {
+            return;
+        }
+
         currentTetromino.rotateClockwise();
 
         if (!tryWallKick()) {
@@ -99,6 +168,10 @@ public class GameModel {
     }
 
     public void rotateCounterClockwise() {
+        if (state != GameState.RUNNING) {
+            return;
+        }
+
         currentTetromino.rotateCounterClockwise();
 
         if (!tryWallKick()) {
@@ -107,24 +180,53 @@ public class GameModel {
     }
 
     public void tick() throws FactoryException, TetrominoExeption {
+        if (state != GameState.RUNNING) {
+            return;
+        }
+
         currentTetromino.moveDown();
 
         if (!board.canPlace(currentTetromino)) {
             currentTetromino.moveUp();
-
-            board.lock(currentTetromino);
-
-            int lines = board.clearFullLines();
-            scoreManager.addClearedLines(lines);
-
-            spawnNext();
+            lockCurrentTetromino();
         }
+    }
+
+    public void hardDrop() {
+        if (state != GameState.RUNNING) {
+            return;
+        }
+
+        moveToDropPosition(currentTetromino);
+        lockCurrentTetromino();
+    }
+
+    private void moveToDropPosition(Tetromino tetromino) {
+        while (true) {
+            tetromino.moveDown();
+
+            if (!board.canPlace(tetromino)) {
+                tetromino.moveUp();
+                return;
+            }
+        }
+    }
+
+    private void lockCurrentTetromino() {
+        board.lock(currentTetromino);
+        notifyBlockLocked();
+
+        int lines = board.clearFullLines();
+        scoreManager.addClearedLines(lines);
+
+        spawnNext();
     }
 
     private void spawnNext() {
         if (!board.canPlace(nextTetromino)) {
             currentTetromino = null;
             state = GameState.GAME_OVER;
+            gameTimer.pause();
             return;
         }
 
@@ -162,5 +264,11 @@ public class GameModel {
         }
 
         return false;
+    }
+
+    private void notifyBlockLocked() {
+        if (onBlockLocked != null) {
+            onBlockLocked.run();
+        }
     }
 }

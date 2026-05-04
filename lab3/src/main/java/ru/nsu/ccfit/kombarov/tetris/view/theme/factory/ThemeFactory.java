@@ -1,7 +1,7 @@
 package ru.nsu.ccfit.kombarov.tetris.view.theme.factory;
 
 import ru.nsu.ccfit.kombarov.tetris.exceptions.FactoryException;
-import ru.nsu.ccfit.kombarov.tetris.view.theme.Theme;
+import ru.nsu.ccfit.kombarov.tetris.view.theme.themes.Theme;
 
 import java.io.IOException;
 import java.io.InputStream;

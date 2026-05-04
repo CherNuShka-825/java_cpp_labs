@@ -2,6 +2,7 @@ package ru.nsu.ccfit.kombarov.tetris.view.theme;
 
 import ru.nsu.ccfit.kombarov.tetris.exceptions.FactoryException;
 import ru.nsu.ccfit.kombarov.tetris.view.theme.factory.ThemeFactory;
+import ru.nsu.ccfit.kombarov.tetris.view.theme.themes.Theme;
 
 import java.util.Set;
 
