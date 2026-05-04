@@ -10,13 +10,16 @@ public class SoundManager {
 
     private final AudioClip buttonClick;
     private final AudioClip blockLock;
+    private final AudioClip lineCleared;
 
-    public SoundManager(String buttonClickPath, String blockLockPath) {
+    public SoundManager(String buttonClickPath, String blockLockPath, String lineCleared) {
         this.buttonClick = loadClip(buttonClickPath);
         this.blockLock = loadClip(blockLockPath);
+        this.lineCleared = loadClip(lineCleared);
 
         this.buttonClick.setVolume(DEFAULT_VOLUME);
         this.blockLock.setVolume(DEFAULT_VOLUME);
+        this.lineCleared.setVolume(DEFAULT_VOLUME);
     }
 
     public void playButtonClick() {
@@ -27,11 +30,16 @@ public class SoundManager {
         blockLock.play();
     }
 
+    public void playLineCleared() {
+        lineCleared.play();
+    }
+
     public void setVolume(double volume) {
         double clamped = clamp(volume);
 
         buttonClick.setVolume(clamped);
         blockLock.setVolume(clamped);
+        lineCleared.setVolume(clamped);
     }
 
     private AudioClip loadClip(String path) {

@@ -21,6 +21,7 @@ public class GameModel {
     private final GameTimer gameTimer = new GameTimer();
 
     private Runnable onBlockLocked;
+    private Runnable onLineCleared;
 
     public GameModel(Board board, TetrominoGenerator generator) {
         this.board = board;
@@ -71,6 +72,10 @@ public class GameModel {
 
     public void setOnBlockLocked(Runnable onBlockLocked) {
         this.onBlockLocked = onBlockLocked;
+    }
+
+    public void setOnLineCleared(Runnable onLineCleared) {
+        this.onLineCleared = onLineCleared;
     }
 
     public void pause() {
@@ -217,6 +222,10 @@ public class GameModel {
         notifyBlockLocked();
 
         int lines = board.clearFullLines();
+        if (lines > 0) {
+            notifyLineCleared();
+        }
+
         scoreManager.addClearedLines(lines);
 
         spawnNext();
@@ -269,6 +278,12 @@ public class GameModel {
     private void notifyBlockLocked() {
         if (onBlockLocked != null) {
             onBlockLocked.run();
+        }
+    }
+
+    private void notifyLineCleared() {
+        if (onLineCleared != null) {
+            onLineCleared.run();
         }
     }
 }

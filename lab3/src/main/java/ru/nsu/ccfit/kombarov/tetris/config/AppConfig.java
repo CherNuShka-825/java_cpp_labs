@@ -32,4 +32,7 @@ public final class AppConfig {
 
     public static final String BLOCK_LOCK_SOUND =
             "ru/nsu/ccfit/kombarov/tetris/audio/block_lock.mp3";
+
+    public static final String LINE_CLEARED_SOUND =
+            "ru/nsu/ccfit/kombarov/tetris/audio/clear_line.mp3";
 }

@@ -1,7 +1,9 @@
 package ru.nsu.ccfit.kombarov.tetris.controller.app;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import ru.nsu.ccfit.kombarov.tetris.audio.MusicManager;
 import ru.nsu.ccfit.kombarov.tetris.audio.SoundManager;
 import ru.nsu.ccfit.kombarov.tetris.config.AppConfig;
@@ -91,10 +93,12 @@ public class GameApplication {
         SoundManager soundManager =
                 new SoundManager(
                         AppConfig.BUTTON_CLICK_SOUND,
-                        AppConfig.BLOCK_LOCK_SOUND
+                        AppConfig.BLOCK_LOCK_SOUND,
+                        AppConfig.LINE_CLEARED_SOUND
                 );
 
         model.setOnBlockLocked(soundManager::playBlockLock);
+        model.setOnLineCleared(soundManager::playLineCleared);
 
         HighScoresManager highScoresManager =
                 new HighScoresManager(
@@ -171,7 +175,7 @@ public class GameApplication {
         );
 
         menuScreen.setOnExit(
-                withButtonSound(
+                withButtonSoundAndDelay(
                         soundManager,
                         createExitApplicationAction(gameLoop, renderLoop, musicManager)
                 )
@@ -316,5 +320,18 @@ public class GameApplication {
         gameLoop.stop();
         renderLoop.stop();
         musicManager.stop();
+    }
+
+    private Runnable withButtonSoundAndDelay(
+            SoundManager soundManager,
+            Runnable action
+    ) {
+        return () -> {
+            soundManager.playButtonClick();
+
+            PauseTransition delay = new PauseTransition(Duration.millis(150));
+            delay.setOnFinished(event -> action.run());
+            delay.play();
+        };
     }
 }
