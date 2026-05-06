@@ -5,9 +5,13 @@ public class ViewConfig {
     private static final int PREVIEW_SIZE_IN_CELLS = 6;
 
     private final int baseSize;
+    private final int boardWidth;
+    private final int boardHeight;
 
-    public ViewConfig(int baseSize) {
+    public ViewConfig(int baseSize, int boardWidth, int boardHeight) {
         this.baseSize = baseSize;
+        this.boardWidth = boardWidth;
+        this.boardHeight = boardHeight;
     }
 
     public int getCellSize() {
@@ -67,7 +71,7 @@ public class ViewConfig {
     }
 
     public int getLargeTitleFontSize() {
-        return Math.max(28, baseSize * 4 / 5);
+        return Math.max(28, baseSize * 4 / 2);
     }
 
     public int getTextFontSize() {
@@ -75,6 +79,18 @@ public class ViewConfig {
     }
 
     public int getButtonFontSize() {
-        return Math.max(14, baseSize / 3);
+        return Math.max(14, baseSize / 2);
+    }
+
+    public int getWindowWidth() {
+        return boardWidth * getCellSize()
+                + getSidePanelWidth()
+                + getGap()
+                + getWindowPadding() * 2;
+    }
+
+    public int getWindowHeight() {
+        return boardHeight * getCellSize()
+                + getWindowPadding() * 2;
     }
 }

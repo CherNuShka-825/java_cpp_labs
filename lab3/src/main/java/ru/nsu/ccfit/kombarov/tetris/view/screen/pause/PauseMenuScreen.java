@@ -14,7 +14,11 @@ public class PauseMenuScreen {
 
     public PauseMenuScreen(Theme theme, ViewConfig config) {
         this.layout = new PauseMenuLayout(theme, config);
-        this.scene = new Scene(layout);
+        this.scene = new Scene(
+                layout,
+                config.getWindowWidth(),
+                config.getWindowHeight()
+        );
 
         layout.getContinueButton().setOnAction(event -> {
             if (onContinue != null) {

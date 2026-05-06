@@ -1,4 +1,4 @@
-package ru.nsu.ccfit.kombarov.tetris.model.facrory;
+package ru.nsu.ccfit.kombarov.tetris.model.factory;
 
 import ru.nsu.ccfit.kombarov.tetris.exceptions.FactoryException;
 import ru.nsu.ccfit.kombarov.tetris.model.tetromino.Tetromino;

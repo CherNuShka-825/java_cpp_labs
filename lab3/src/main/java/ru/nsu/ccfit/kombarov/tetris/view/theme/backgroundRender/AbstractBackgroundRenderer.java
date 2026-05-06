@@ -13,7 +13,6 @@ public abstract class AbstractBackgroundRenderer implements BackgroundRenderer {
 
     @Override
     public void update(double time) {
-        // По умолчанию фон не анимируется.
     }
 
     protected void fillBackground(GraphicsContext gc, double width, double height) {

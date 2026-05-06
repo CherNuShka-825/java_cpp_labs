@@ -21,7 +21,11 @@ public class GameOverScreen {
             BiConsumer<String, Integer> onSave
     ) {
         this.layout = new GameOverLayout(theme, config);
-        this.scene = new Scene(layout);
+        this.scene = new Scene(
+                layout,
+                config.getWindowWidth(),
+                config.getWindowHeight()
+        );
 
         layout.getSaveButton().setOnAction(event -> {
             onSave.accept(layout.getPlayerName(), score);

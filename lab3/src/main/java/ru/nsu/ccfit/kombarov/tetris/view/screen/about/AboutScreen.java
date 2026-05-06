@@ -11,7 +11,11 @@ public class AboutScreen {
 
     public AboutScreen(Theme theme, ViewConfig config) {
         this.layout = new AboutLayout(theme, config);
-        this.scene = new Scene(layout);
+        this.scene = new Scene(
+                layout,
+                config.getWindowWidth(),
+                config.getWindowHeight()
+        );
     }
 
     public void setOnBack(Runnable onBack) {

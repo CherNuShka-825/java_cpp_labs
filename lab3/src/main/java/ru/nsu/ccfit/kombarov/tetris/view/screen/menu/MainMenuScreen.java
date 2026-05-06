@@ -16,7 +16,11 @@ public class MainMenuScreen {
 
     public MainMenuScreen(Theme theme, ViewConfig config) {
         this.layout = new MainMenuLayout(theme, config);
-        this.scene = new Scene(layout);
+        this.scene = new Scene(
+                layout,
+                config.getWindowWidth(),
+                config.getWindowHeight()
+        );
 
         layout.getNewGameButton().setOnAction(event -> {
             if (onNewGame != null) {

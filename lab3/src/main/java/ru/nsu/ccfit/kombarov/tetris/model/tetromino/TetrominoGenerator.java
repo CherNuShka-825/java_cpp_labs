@@ -3,7 +3,7 @@ package ru.nsu.ccfit.kombarov.tetris.model.tetromino;
 import ru.nsu.ccfit.kombarov.tetris.exceptions.FactoryException;
 import ru.nsu.ccfit.kombarov.tetris.exceptions.TetrisException;
 import ru.nsu.ccfit.kombarov.tetris.exceptions.TetrominoExeption;
-import ru.nsu.ccfit.kombarov.tetris.model.facrory.TetrominoFactory;
+import ru.nsu.ccfit.kombarov.tetris.model.factory.TetrominoFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;

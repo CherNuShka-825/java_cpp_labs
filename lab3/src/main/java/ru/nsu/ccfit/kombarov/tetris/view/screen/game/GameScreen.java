@@ -12,7 +12,11 @@ public class GameScreen {
 
     public GameScreen(GameModel model, Theme theme, ViewConfig config) {
         this.layout = new GameLayout(model, theme, config);
-        this.scene = new Scene(layout);
+        this.scene = new Scene(
+                layout,
+                config.getWindowWidth(),
+                config.getWindowHeight()
+        );
     }
 
     public void render(double time) {

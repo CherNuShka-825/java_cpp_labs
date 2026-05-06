@@ -12,7 +12,11 @@ public class HighScoresScreen {
 
     public HighScoresScreen(Theme theme, ViewConfig config) {
         this.layout = new HighScoresLayout(theme, config);
-        this.scene = new Scene(layout);
+        this.scene = new Scene(
+                layout,
+                config.getWindowWidth(),
+                config.getWindowHeight()
+        );
     }
 
     public void refresh(HighScoreTable table) {
