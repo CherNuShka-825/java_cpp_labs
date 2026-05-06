@@ -180,7 +180,7 @@ public class GameModel {
         currentTetromino.rotateCounterClockwise();
 
         if (!tryWallKick()) {
-            currentTetromino.rotateCounterClockwise();
+            currentTetromino.rotateClockwise();
         }
     }
 
