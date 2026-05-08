@@ -3,7 +3,11 @@ package ru.nsu.ccfit.kombarov.tetris.model.board;
 import ru.nsu.ccfit.kombarov.tetris.model.Coordinate;
 import ru.nsu.ccfit.kombarov.tetris.model.tetromino.Tetromino;
 
+import java.util.logging.Logger;
+
 public class Board {
+
+    private static final Logger logger = Logger.getLogger(Board.class.getName());
 
     private final int width;
     private final int height;
@@ -13,6 +17,7 @@ public class Board {
         this.width = width;
         this.height = height;
         this.cells = new String[height][width];
+        logger.info("Board created");
     }
 
     public int getWidth() {

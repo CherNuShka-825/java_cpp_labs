@@ -3,8 +3,11 @@ package ru.nsu.ccfit.kombarov.tetris.model.highScore;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class HighScoreTable {
+
+    private static final Logger logger = Logger.getLogger(HighScoreTable.class.getName());
 
     private static final int MAX_ENTRIES = 10;
 
@@ -27,6 +30,8 @@ public class HighScoreTable {
         }
 
         sortAndTrim();
+
+        logger.info("add");
     }
 
     public boolean isHighScore(int score) {
@@ -34,14 +39,17 @@ public class HighScoreTable {
             return true;
         }
 
+        logger.fine("is High Score");
         return score > entries.getLast().getScore();
     }
 
     public List<HighScoreEntry> getEntries() {
+        logger.fine("get Entries");
         return List.copyOf(entries);
     }
 
     private void addNewEntry(String playerName, int score) {
+        logger.fine("add New Entry");
         entries.add(new HighScoreEntry(playerName, score));
     }
 
@@ -56,15 +64,18 @@ public class HighScoreTable {
 
         entries.remove(oldEntry);
         entries.add(new HighScoreEntry(playerName, score));
+        logger.finest("update Existing Entry If Better");
     }
 
     private HighScoreEntry findEntryByName(String playerName) {
         for (HighScoreEntry entry : entries) {
             if (entry.getPlayerName().equals(playerName)) {
+                logger.finest("findEntryByName: found");
                 return entry;
             }
         }
 
+        logger.finest("findEntryByName: not found");
         return null;
     }
 
@@ -76,6 +87,8 @@ public class HighScoreTable {
         while (entries.size() > MAX_ENTRIES) {
             entries.removeLast();
         }
+
+        logger.finest("sort And Trime");
     }
 
     private String normalizePlayerName(String name) {
@@ -86,13 +99,16 @@ public class HighScoreTable {
         normalized = normalized.replace(FILE_SEPARATOR, ' ');
 
         if (normalized.isBlank()) {
+            logger.finest("return default name");
             return DEFAULT_PLAYER_NAME;
         }
 
         if (normalized.length() > MAX_PLAYER_NAME_LENGTH) {
+            logger.finest("return short name");
             return normalized.substring(0, MAX_PLAYER_NAME_LENGTH);
         }
 
+        logger.finest("return normalized name");
         return normalized;
     }
 }

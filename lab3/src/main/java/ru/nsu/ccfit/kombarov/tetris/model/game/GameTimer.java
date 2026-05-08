@@ -1,6 +1,10 @@
 package ru.nsu.ccfit.kombarov.tetris.model.game;
 
+import java.util.logging.Logger;
+
 public class GameTimer {
+
+    private static final Logger logger = Logger.getLogger(GameTimer.class.getName());
 
     private long elapsedBeforeStartNanos;
     private long startNanos;
@@ -10,12 +14,14 @@ public class GameTimer {
         elapsedBeforeStartNanos = 0;
         startNanos = 0;
         running = false;
+        logger.fine("reset");
     }
 
     public void start() {
         elapsedBeforeStartNanos = 0;
         startNanos = System.nanoTime();
         running = true;
+        logger.fine("start");
     }
 
     public void pause() {
@@ -25,6 +31,7 @@ public class GameTimer {
 
         elapsedBeforeStartNanos += System.nanoTime() - startNanos;
         running = false;
+        logger.fine("pause");
     }
 
     public void resume() {
@@ -34,6 +41,7 @@ public class GameTimer {
 
         startNanos = System.nanoTime();
         running = true;
+        logger.fine("resume");
     }
 
     public long getElapsedSeconds() {
@@ -43,6 +51,8 @@ public class GameTimer {
             elapsed += System.nanoTime() - startNanos;
         }
 
+        logger.fine("get Elapsed Second");
+
         return elapsed / 1_000_000_000L;
     }
 
@@ -51,6 +61,8 @@ public class GameTimer {
 
         long minutes = seconds / 60;
         long remainingSeconds = seconds % 60;
+
+        logger.finer("get Formated Time");
 
         return "%02d:%02d".formatted(minutes, remainingSeconds);
     }

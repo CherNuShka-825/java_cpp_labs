@@ -6,7 +6,11 @@ import ru.nsu.ccfit.kombarov.tetris.model.board.Board;
 import ru.nsu.ccfit.kombarov.tetris.model.tetromino.Tetromino;
 import ru.nsu.ccfit.kombarov.tetris.model.tetromino.TetrominoGenerator;
 
+import java.util.logging.Logger;
+
 public class GameModel {
+
+    private static final Logger logger = Logger.getLogger(GameModel.class.getName());
 
     private final Board board;
     private final TetrominoGenerator generator;
@@ -26,21 +30,26 @@ public class GameModel {
     public GameModel(Board board, TetrominoGenerator generator) {
         this.board = board;
         this.generator = generator;
+        logger.info("GameModel Created");
     }
 
     public Board getBoard() {
+        logger.fine("get Board");
         return board;
     }
 
     public Tetromino getCurrentTetromino() {
+        logger.fine("get Current Tetromino");
         return currentTetromino;
     }
 
     public Tetromino getNextTetromino() {
+        logger.fine("get Next Tetromino");
         return nextTetromino;
     }
 
     public Tetromino getGhostTetromino() {
+        logger.fine("get Ghost Tetromino");
         if (currentTetromino == null) {
             return null;
         }
@@ -51,34 +60,42 @@ public class GameModel {
     }
 
     public int getScore() {
+        logger.fine("get Score");
         return scoreManager.getScore();
     }
 
     public int getLevel() {
+        logger.fine("get Level");
         return scoreManager.getLevel();
     }
 
     public int getClearedLines() {
+        logger.fine("get Cleared Lines");
         return scoreManager.getClearedLines();
     }
 
     public GameState getState() {
+        logger.fine("get State");
         return state;
     }
 
     public String getFormattedTime() {
+        logger.fine("get Formated Time");
         return gameTimer.getFormattedTime();
     }
 
     public void setOnBlockLocked(Runnable onBlockLocked) {
+        logger.fine("set On Block Locked");
         this.onBlockLocked = onBlockLocked;
     }
 
     public void setOnLineCleared(Runnable onLineCleared) {
+        logger.fine("set On Line Cleared");
         this.onLineCleared = onLineCleared;
     }
 
     public void pause() {
+        logger.fine("pause");
         if (state != GameState.PAUSED) {
             state = GameState.PAUSED;
             gameTimer.pause();
@@ -86,6 +103,7 @@ public class GameModel {
     }
 
     public void resume() {
+        logger.fine("resume");
         if (state != GameState.RUNNING) {
             state = GameState.RUNNING;
             gameTimer.resume();
@@ -93,6 +111,7 @@ public class GameModel {
     }
 
     public void newGame() throws FactoryException, TetrominoExeption {
+        logger.info("start new game");
         board.clear();
         scoreManager.reset();
         gameTimer.start();
@@ -109,6 +128,7 @@ public class GameModel {
     }
 
     public void moveLeft() {
+        logger.fine("move Left");
         if (state != GameState.RUNNING) {
             return;
         }
@@ -121,6 +141,7 @@ public class GameModel {
     }
 
     public void moveRight() {
+        logger.fine("move Right");
         if (state != GameState.RUNNING) {
             return;
         }
@@ -133,6 +154,7 @@ public class GameModel {
     }
 
     public void moveDownLeft() {
+        logger.fine("move Down Left");
         if (state != GameState.RUNNING) {
             return;
         }
@@ -147,6 +169,7 @@ public class GameModel {
     }
 
     public void moveDownRight() {
+        logger.fine("move Down Right");
         if (state != GameState.RUNNING) {
             return;
         }
@@ -161,6 +184,7 @@ public class GameModel {
     }
 
     public void rotateClockwise() {
+        logger.fine("rotate Clockwise");
         if (state != GameState.RUNNING) {
             return;
         }
@@ -173,6 +197,7 @@ public class GameModel {
     }
 
     public void rotateCounterClockwise() {
+        logger.fine("rotate Counter Clockwise");
         if (state != GameState.RUNNING) {
             return;
         }
@@ -185,6 +210,7 @@ public class GameModel {
     }
 
     public void tick() throws FactoryException, TetrominoExeption {
+        logger.finest("tick");
         if (state != GameState.RUNNING) {
             return;
         }
@@ -198,6 +224,7 @@ public class GameModel {
     }
 
     public void hardDrop() {
+        logger.fine("hard Drope");
         if (state != GameState.RUNNING) {
             return;
         }
@@ -207,6 +234,7 @@ public class GameModel {
     }
 
     private void moveToDropPosition(Tetromino tetromino) {
+        logger.finer("move To Drope Position");
         while (true) {
             tetromino.moveDown();
 
@@ -218,6 +246,7 @@ public class GameModel {
     }
 
     private void lockCurrentTetromino() {
+        logger.finer("lock Current Tetromino");
         board.lock(currentTetromino);
         notifyBlockLocked();
 
@@ -232,6 +261,7 @@ public class GameModel {
     }
 
     private void spawnNext() {
+        logger.finer("spawn Next");
         if (!board.canPlace(nextTetromino)) {
             currentTetromino = null;
             state = GameState.GAME_OVER;
@@ -244,6 +274,7 @@ public class GameModel {
     }
 
     private Tetromino spawnCentered() throws FactoryException, TetrominoExeption {
+        logger.finer("spawn Centred");
         Tetromino tetromino = generator.oneFromBag();
 
         int startX = (board.getWidth() - tetromino.getWidth()) / 2;
@@ -254,6 +285,7 @@ public class GameModel {
     }
 
     private boolean tryWallKick() {
+        logger.finer("try Wall Kick");
         int[] offsets = {0, -1, 1, -2, 2};
 
         for (int dx : offsets) {
@@ -276,12 +308,14 @@ public class GameModel {
     }
 
     private void notifyBlockLocked() {
+        logger.finer("notify Block Locked");
         if (onBlockLocked != null) {
             onBlockLocked.run();
         }
     }
 
     private void notifyLineCleared() {
+        logger.finer("notify Line Cleared");
         if (onLineCleared != null) {
             onLineCleared.run();
         }

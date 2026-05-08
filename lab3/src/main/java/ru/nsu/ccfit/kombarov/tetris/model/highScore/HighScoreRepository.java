@@ -3,8 +3,11 @@ package ru.nsu.ccfit.kombarov.tetris.model.highScore;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.logging.Logger;
 
 public class HighScoreRepository {
+
+    private static final Logger logger = Logger.getLogger(HighScoreRepository.class.getName());
 
     private static final String SEPARATOR = ";";
     private static final int EXPECTED_PARTS = 2;
@@ -13,12 +16,14 @@ public class HighScoreRepository {
 
     public HighScoreRepository(Path filePath) {
         this.filePath = filePath;
+        logger.info("created High Score Repository");
     }
 
     public HighScoreTable load() {
         HighScoreTable table = new HighScoreTable();
 
         if (!Files.exists(filePath)) {
+            logger.info("file Path don't exists");
             return table;
         }
 
@@ -36,9 +41,11 @@ public class HighScoreRepository {
                 table.add(name, score);
             }
 
+            logger.info("load");
             return table;
 
         } catch (IOException | NumberFormatException e) {
+            logger.severe("Failed to load high scores");
             throw new RuntimeException("Failed to load high scores", e);
         }
     }
@@ -57,8 +64,10 @@ public class HighScoreRepository {
             }
 
             Files.writeString(filePath, builder.toString());
+            logger.info("save");
 
         } catch (IOException e) {
+            logger.severe("Failed to save high scores");
             throw new RuntimeException("Failed to save high scores", e);
         }
     }
@@ -68,6 +77,7 @@ public class HighScoreRepository {
 
         if (parent != null) {
             Files.createDirectories(parent);
+            logger.info("created Parent Directory");
         }
     }
 }

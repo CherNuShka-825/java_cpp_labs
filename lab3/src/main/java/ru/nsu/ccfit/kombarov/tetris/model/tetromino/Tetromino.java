@@ -4,8 +4,11 @@ import ru.nsu.ccfit.kombarov.tetris.model.Coordinate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public abstract class Tetromino {
+
+    private static final Logger logger = Logger.getLogger(Tetromino.class.getName());
 
     protected int x;
     protected int y;
@@ -18,6 +21,7 @@ public abstract class Tetromino {
         this.x = x;
         this.y = y;
         this.rotation = 0;
+        logger.info("created tetromino");
     }
 
     public String getType() {
