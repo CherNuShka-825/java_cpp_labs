@@ -25,7 +25,7 @@ public class LogConfig {
             rootLogger.addHandler(fileHandler);
             //rootLogger.addHandler(consoleHandler);
 
-            rootLogger.setLevel(Level.ALL);
+            rootLogger.setLevel(Level.INFO);
         } catch (IOException e) {
             System.err.println("Logger init failed: " + e.getMessage());
         }

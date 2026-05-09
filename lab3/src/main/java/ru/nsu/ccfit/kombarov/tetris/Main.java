@@ -2,12 +2,19 @@ package ru.nsu.ccfit.kombarov.tetris;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import ru.nsu.ccfit.kombarov.tetris.config.LogConfig;
 import ru.nsu.ccfit.kombarov.tetris.controller.app.GameApplication;
 import ru.nsu.ccfit.kombarov.tetris.exceptions.TetrisException;
 
+import java.util.logging.Logger;
+
 public class Main extends Application {
 
+    private static final Logger logger = Logger.getLogger(Main.class.getName());
+
     public static void main(String[] args) {
+        LogConfig.setup();
+        logger.info("Tetris started");
         launch(args);
     }
 

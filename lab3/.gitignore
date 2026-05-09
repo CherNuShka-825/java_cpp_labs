@@ -42,5 +42,6 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-### docs ###
+### docs & logs###
 /docs/
+/logs/
