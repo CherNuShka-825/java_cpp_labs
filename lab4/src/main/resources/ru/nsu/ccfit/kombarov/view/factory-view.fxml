@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="20.0" style="-fx-font-size: 14px;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.nsu.ccfit.kombarov.view.FactoryView">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Factory Monitoring System" />
+
+    <VBox spacing="10.0" style="-fx-border-color: #cccccc; -fx-border-radius: 5; -fx-padding: 10;">
+        <Label style="-fx-font-weight: bold;" text="Storage Status" />
+        <GridPane hgap="10.0" vgap="10.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="NEVER" minWidth="150.0" />
+                <ColumnConstraints hgrow="ALWAYS" />
+                <ColumnConstraints hgrow="NEVER" minWidth="80.0" />
+            </columnConstraints>
+
+            <Label text="Body Storage:" GridPane.rowIndex="0" />
+            <ProgressBar fx:id="bodyStorageBar" maxWidth="1.7976931348623157E308" progress="0.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label fx:id="bodyStorageLabel" text="0/0" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+
+            <Label text="Motor Storage:" GridPane.rowIndex="1" />
+            <ProgressBar fx:id="motorStorageBar" maxWidth="1.7976931348623157E308" progress="0.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="motorStorageLabel" text="0/0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+
+            <Label text="Accessory Storage:" GridPane.rowIndex="2" />
+            <ProgressBar fx:id="accessoryStorageBar" maxWidth="1.7976931348623157E308" progress="0.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="accessoryStorageLabel" text="0/0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+
+            <Label text="Auto Storage:" GridPane.rowIndex="3" />
+            <ProgressBar fx:id="autoStorageBar" maxWidth="1.7976931348623157E308" progress="0.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="autoStorageLabel" text="0/0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+        </GridPane>
+    </VBox>
+
+    <VBox spacing="15.0" style="-fx-border-color: #cccccc; -fx-border-radius: 5; -fx-padding: 10;">
+        <Label style="-fx-font-weight: bold;" text="Speed Control (Delays)" />
+
+        <VBox spacing="5.0">
+            <Label text="Body Supplier Delay:" />
+            <HBox spacing="10.0" alignment="CENTER">
+                <Slider fx:id="bodyDelaySlider" max="5000.0" min="100.0" value="1000.0" HBox.hgrow="ALWAYS" />
+                <Label fx:id="bodyDelayValue" prefWidth="60.0" text="1000 ms" />
+            </HBox>
+        </VBox>
+
+        <VBox spacing="5.0">
+            <Label text="Motor Supplier Delay:" />
+            <HBox spacing="10.0" alignment="CENTER">
+                <Slider fx:id="motorDelaySlider" max="5000.0" min="100.0" value="1000.0" HBox.hgrow="ALWAYS" />
+                <Label fx:id="motorDelayValue" prefWidth="60.0" text="1000 ms" />
+            </HBox>
+        </VBox>
+
+        <VBox spacing="5.0">
+            <Label text="Accessory Supplier Delay:" />
+            <HBox spacing="10.0" alignment="CENTER">
+                <Slider fx:id="accessoryDelaySlider" max="5000.0" min="100.0" value="1000.0" HBox.hgrow="ALWAYS" />
+                <Label fx:id="accessoryDelayValue" prefWidth="60.0" text="1000 ms" />
+            </HBox>
+        </VBox>
+
+        <VBox spacing="5.0">
+            <Label text="Dealer Delay:" />
+            <HBox spacing="10.0" alignment="CENTER">
+                <Slider fx:id="dealerDelaySlider" max="5000.0" min="100.0" value="1000.0" HBox.hgrow="ALWAYS" />
+                <Label fx:id="dealerDelayValue" prefWidth="60.0" text="1000 ms" />
+            </HBox>
+        </VBox>
+    </VBox>
+
+    <HBox spacing="40.0">
+        <VBox>
+            <Label style="-fx-font-weight: bold;" text="Total Sold:" />
+            <Label fx:id="totalAutosLabel" text="0" />
+        </VBox>
+        <VBox>
+            <Label style="-fx-font-weight: bold;" text="Wait Tasks:" />
+            <Label fx:id="queueSizeLabel" text="0" />
+        </VBox>
+    </HBox>
+</VBox>
