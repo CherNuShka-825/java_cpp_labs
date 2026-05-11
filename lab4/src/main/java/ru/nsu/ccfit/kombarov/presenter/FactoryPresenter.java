@@ -38,10 +38,16 @@ public final class FactoryPresenter {
             view.updateDelayLabels();
         });
 
+        view.getWorkerDelaySlider().valueProperty().addListener((obs, old, val) -> {
+            model.getDelays().setWorkerDelayMs(val.intValue());
+            view.updateDelayLabels();
+        });
+
         view.getBodyDelaySlider().setValue(model.getDelays().getBodySupplierDelayMs());
         view.getMotorDelaySlider().setValue(model.getDelays().getMotorSupplierDelayMs());
         view.getAccessoryDelaySlider().setValue(model.getDelays().getAccessorySupplierDelayMs());
         view.getDealerDelaySlider().setValue(model.getDelays().getDealerDelayMs());
+        view.getWorkerDelaySlider().setValue(model.getDelays().getWorkerDelayMs());
         view.updateDelayLabels();
     }
 

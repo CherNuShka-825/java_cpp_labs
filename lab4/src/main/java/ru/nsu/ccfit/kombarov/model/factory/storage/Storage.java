@@ -35,6 +35,12 @@ public final class Storage<T> {
         return item;
     }
 
+    public synchronized void waitForFreeSpace() throws InterruptedException {
+        while (items.size() >= capacity) {
+            wait();
+        }
+    }
+
     public synchronized int getSize() {
         return items.size();
     }

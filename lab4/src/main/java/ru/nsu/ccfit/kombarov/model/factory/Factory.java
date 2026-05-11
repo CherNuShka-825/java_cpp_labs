@@ -47,7 +47,8 @@ public final class Factory {
                 config.getBodySupplierDelayMs(),
                 config.getMotorSupplierDelayMs(),
                 config.getAccessorySupplierDelayMs(),
-                config.getDealerDelayMs()
+                config.getDealerDelayMs(),
+                config.getWorkerDelayMs()
         );
 
         threadPool = new ThreadPool(config.getWorkers());
@@ -63,7 +64,8 @@ public final class Factory {
                 accessoryStorage,
                 autoStorage,
                 threadPool,
-                statistics
+                statistics,
+                delays::getWorkerDelayMs
         );
 
         createSuppliers();

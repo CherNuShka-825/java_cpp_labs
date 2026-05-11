@@ -7,6 +7,7 @@ import ru.nsu.ccfit.kombarov.model.factory.entity.Body;
 import ru.nsu.ccfit.kombarov.model.factory.entity.Motor;
 import ru.nsu.ccfit.kombarov.model.factory.statistics.FactoryStatistics;
 import ru.nsu.ccfit.kombarov.model.factory.storage.Storage;
+import ru.nsu.ccfit.kombarov.model.factory.supplier.PartSupplier.DelayProvider;
 
 public final class BuildAutoTask implements Runnable {
 
@@ -19,13 +20,16 @@ public final class BuildAutoTask implements Runnable {
 
     private final AutoStorageController controller;
 
+    private final DelayProvider delayProvider;
+
     public BuildAutoTask(
             Storage<Body> bodyStorage,
             Storage<Motor> motorStorage,
             Storage<Accessory> accessoryStorage,
             Storage<Auto> autoStorage,
             FactoryStatistics statistics,
-            AutoStorageController controller
+            AutoStorageController controller,
+            DelayProvider delayProvider
     ) {
         this.bodyStorage = bodyStorage;
         this.motorStorage = motorStorage;
@@ -34,11 +38,15 @@ public final class BuildAutoTask implements Runnable {
 
         this.statistics = statistics;
         this.controller = controller;
+
+        this.delayProvider = delayProvider;
     }
 
     @Override
     public void run() {
         try {
+            Thread.sleep(delayProvider.getDelayMs());
+
             Body body = bodyStorage.take();
             Motor motor = motorStorage.take();
             Accessory accessory = accessoryStorage.take();

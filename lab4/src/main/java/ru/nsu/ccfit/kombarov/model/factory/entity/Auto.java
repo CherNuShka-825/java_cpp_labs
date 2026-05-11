@@ -6,7 +6,7 @@ public final class Auto {
 
     private static final AtomicLong NEXT_ID = new AtomicLong(1);
 
-    private final long id;
+    private final long id; //todo почему не volatile
     private final Body body;
     private final Motor motor;
     private final Accessory accessory;

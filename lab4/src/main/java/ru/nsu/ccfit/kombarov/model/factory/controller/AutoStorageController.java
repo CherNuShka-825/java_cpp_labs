@@ -5,6 +5,8 @@ import ru.nsu.ccfit.kombarov.model.factory.statistics.FactoryStatistics;
 import ru.nsu.ccfit.kombarov.model.factory.storage.Storage;
 import ru.nsu.ccfit.kombarov.model.factory.worker.BuildAutoTask;
 import ru.nsu.ccfit.kombarov.model.threadpool.ThreadPool;
+import ru.nsu.ccfit.kombarov.model.factory.supplier.PartSupplier.DelayProvider;
+
 
 public final class AutoStorageController implements Runnable {
 
@@ -16,6 +18,8 @@ public final class AutoStorageController implements Runnable {
     private final ThreadPool threadPool;
     private final FactoryStatistics statistics;
 
+    private final DelayProvider delayProvider;
+
     private int pendingAutos = 0;
 
     public AutoStorageController(
@@ -24,7 +28,8 @@ public final class AutoStorageController implements Runnable {
             Storage<Accessory> accessoryStorage,
             Storage<Auto> autoStorage,
             ThreadPool threadPool,
-            FactoryStatistics statistics
+            FactoryStatistics statistics,
+            DelayProvider delayProvider
     ) {
         this.bodyStorage = bodyStorage;
         this.motorStorage = motorStorage;
@@ -32,6 +37,7 @@ public final class AutoStorageController implements Runnable {
         this.autoStorage = autoStorage;
         this.threadPool = threadPool;
         this.statistics = statistics;
+        this.delayProvider = delayProvider;
     }
 
     @Override
@@ -67,7 +73,8 @@ public final class AutoStorageController implements Runnable {
                     accessoryStorage,
                     autoStorage,
                     statistics,
-                    this
+                    this,
+                    delayProvider
             ));
         }
     }

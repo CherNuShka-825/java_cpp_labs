@@ -27,6 +27,8 @@ public final class PartSupplier<T> implements Runnable {
             while (!Thread.currentThread().isInterrupted()) {
                 Thread.sleep(delayProvider.getDelayMs());
 
+                storage.waitForFreeSpace();
+
                 T item = producer.produce();
                 storage.put(item);
 

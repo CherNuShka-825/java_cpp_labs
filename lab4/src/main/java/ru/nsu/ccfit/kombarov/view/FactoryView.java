@@ -24,6 +24,8 @@ public final class FactoryView {
     @FXML private Label accessoryDelayValue;
     @FXML private Slider dealerDelaySlider;
     @FXML private Label dealerDelayValue;
+    @FXML private Slider workerDelaySlider;
+    @FXML private Label workerDelayValue;
 
     @FXML private Label totalAutosLabel;
     @FXML private Label queueSizeLabel;
@@ -58,10 +60,12 @@ public final class FactoryView {
         motorDelayValue.setText((int) motorDelaySlider.getValue() + " ms");
         accessoryDelayValue.setText((int) accessoryDelaySlider.getValue() + " ms");
         dealerDelayValue.setText((int) dealerDelaySlider.getValue() + " ms");
+        workerDelayValue.setText((int) workerDelaySlider.getValue() + "ms");
     }
 
     public Slider getBodyDelaySlider() { return bodyDelaySlider; }
     public Slider getMotorDelaySlider() { return motorDelaySlider; }
     public Slider getAccessoryDelaySlider() { return accessoryDelaySlider; }
     public Slider getDealerDelaySlider() { return dealerDelaySlider; }
+    public Slider getWorkerDelaySlider() {return workerDelaySlider; }
 }

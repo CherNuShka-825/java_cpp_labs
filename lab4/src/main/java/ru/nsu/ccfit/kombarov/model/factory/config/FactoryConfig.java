@@ -18,6 +18,7 @@ public final class FactoryConfig {
     private final int motorSupplierDelayMs;
     private final int accessorySupplierDelayMs;
     private final int dealerDelayMs;
+    private final int workerDelayMs;
 
     private final boolean logSale;
 
@@ -38,6 +39,7 @@ public final class FactoryConfig {
             int motorSupplierDelayMs,
             int accessorySupplierDelayMs,
             int dealerDelayMs,
+            int workerDelayMs,
 
             boolean logSale
     ) {
@@ -57,6 +59,7 @@ public final class FactoryConfig {
         this.motorSupplierDelayMs = motorSupplierDelayMs;
         this.accessorySupplierDelayMs = accessorySupplierDelayMs;
         this.dealerDelayMs = dealerDelayMs;
+        this.workerDelayMs = workerDelayMs;
 
         this.logSale = logSale;
     }
@@ -111,6 +114,10 @@ public final class FactoryConfig {
 
     public int getDealerDelayMs() {
         return dealerDelayMs;
+    }
+
+    public int getWorkerDelayMs() {
+        return workerDelayMs;
     }
 
     public boolean isLogSale() {

@@ -72,6 +72,14 @@
                 <Label fx:id="dealerDelayValue" prefWidth="60.0" text="1000 ms" />
             </HBox>
         </VBox>
+
+        <VBox spacing="5.0">
+            <Label text="Worker Delay:" />
+            <HBox spacing="10.0" alignment="CENTER">
+                <Slider fx:id="workerDelaySlider" max="5000.0" min="100.0" value="1000.0" HBox.hgrow="ALWAYS" />
+                <Label fx:id="workerDelayValue" prefWidth="60.0" text="1000 ms" />
+            </HBox>
+        </VBox>
     </VBox>
 
     <HBox spacing="40.0">

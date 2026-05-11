@@ -8,17 +8,20 @@ public final class FactoryDelays {
     private final AtomicInteger motorSupplierDelayMs;
     private final AtomicInteger accessorySupplierDelayMs;
     private final AtomicInteger dealerDelayMs;
+    private final AtomicInteger workerDelayMs;
 
     public FactoryDelays(
             int bodySupplierDelayMs,
             int motorSupplierDelayMs,
             int accessorySupplierDelayMs,
-            int dealerDelayMs
+            int dealerDelayMs,
+            int workerDelayMs
     ) {
         this.bodySupplierDelayMs = new AtomicInteger(requirePositive(bodySupplierDelayMs, "bodySupplierDelayMs"));
         this.motorSupplierDelayMs = new AtomicInteger(requirePositive(motorSupplierDelayMs, "motorSupplierDelayMs"));
         this.accessorySupplierDelayMs = new AtomicInteger(requirePositive(accessorySupplierDelayMs, "accessorySupplierDelayMs"));
         this.dealerDelayMs = new AtomicInteger(requirePositive(dealerDelayMs, "dealerDelayMs"));
+        this.workerDelayMs = new AtomicInteger(requirePositive(workerDelayMs, "workerDelayMs"));
     }
 
     public int getBodySupplierDelayMs() {
@@ -51,6 +54,14 @@ public final class FactoryDelays {
 
     public void setDealerDelayMs(int delayMs) {
         dealerDelayMs.set(requirePositive(delayMs, "dealerDelayMs"));
+    }
+
+    public int getWorkerDelayMs() {
+        return workerDelayMs.get();
+    }
+
+    public void setWorkerDelayMs(int delayMs) {
+        workerDelayMs.set(requirePositive(delayMs, "workerDelayMs"));
     }
 
     private static int requirePositive(int value, String name) {

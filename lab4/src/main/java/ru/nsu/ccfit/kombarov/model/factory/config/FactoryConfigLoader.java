@@ -34,6 +34,7 @@ public final class FactoryConfigLoader {
                 getInt(properties, "MotorSupplierDelay"),
                 getInt(properties, "AccessorySupplierDelay"),
                 getInt(properties, "DealerDelay"),
+                getInt(properties, "WorkerDelay"),
 
                 getBoolean(properties, "LogSale")
         );
