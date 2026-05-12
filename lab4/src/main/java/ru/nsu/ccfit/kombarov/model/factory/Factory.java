@@ -26,7 +26,6 @@ public final class Factory {
     private final Storage<Auto> autoStorage;
 
     private final FactoryStatistics statistics;
-    private final FactoryDelays delays;
 
     private final ThreadPool threadPool;
     private final AutoStorageController autoStorageController;
@@ -37,19 +36,20 @@ public final class Factory {
     public Factory(FactoryConfig config) throws IOException {
         this.config = config;
 
-        bodyStorage = new Storage<>(config.getBodyStorageSize());
-        motorStorage = new Storage<>(config.getMotorStorageSize());
-        accessoryStorage = new Storage<>(config.getAccessoryStorageSize());
-        autoStorage = new Storage<>(config.getAutoStorageSize());
-
-        statistics = new FactoryStatistics();
-        delays = new FactoryDelays(
+        FactoryDelays.init(
                 config.getBodySupplierDelayMs(),
                 config.getMotorSupplierDelayMs(),
                 config.getAccessorySupplierDelayMs(),
                 config.getDealerDelayMs(),
                 config.getWorkerDelayMs()
         );
+
+        bodyStorage = new Storage<>(config.getBodyStorageSize());
+        motorStorage = new Storage<>(config.getMotorStorageSize());
+        accessoryStorage = new Storage<>(config.getAccessoryStorageSize());
+        autoStorage = new Storage<>(config.getAutoStorageSize());
+
+        statistics = new FactoryStatistics();
 
         threadPool = new ThreadPool(config.getWorkers());
 
@@ -64,8 +64,7 @@ public final class Factory {
                 accessoryStorage,
                 autoStorage,
                 threadPool,
-                statistics,
-                delays::getWorkerDelayMs
+                statistics
         );
 
         createSuppliers();
@@ -75,7 +74,11 @@ public final class Factory {
     public void start() {
         threadPool.start();
 
-        Thread controllerThread = new Thread(autoStorageController, "AutoStorageController");
+        Thread controllerThread = new Thread(
+                autoStorageController,
+                "AutoStorageController"
+        );
+
         threads.add(controllerThread);
 
         for (Thread thread : threads) {
@@ -95,10 +98,6 @@ public final class Factory {
 
     public FactoryStatistics getStatistics() {
         return statistics;
-    }
-
-    public FactoryDelays getDelays() {
-        return delays;
     }
 
     public Storage<Body> getBodyStorage() {
@@ -126,39 +125,42 @@ public final class Factory {
             PartSupplier<Body> supplier = new PartSupplier<>(
                     bodyStorage,
                     Body::new,
-                    delays::getBodySupplierDelayMs,
+                    FactoryDelays::getBodySupplierDelayMs,
                     statistics::incrementProducedBodies
             );
 
-            threads.add(
-                    new Thread(supplier, "BodySupplier-" + (i + 1))
-            );
+            threads.add(new Thread(
+                    supplier,
+                    "BodySupplier-" + (i + 1)
+            ));
         }
 
         for (int i = 0; i < config.getMotorSuppliers(); i++) {
             PartSupplier<Motor> supplier = new PartSupplier<>(
                     motorStorage,
                     Motor::new,
-                    delays::getMotorSupplierDelayMs,
+                    FactoryDelays::getMotorSupplierDelayMs,
                     statistics::incrementProducedMotors
             );
 
-            threads.add(
-                    new Thread(supplier, "MotorSupplier-" + (i + 1))
-            );
+            threads.add(new Thread(
+                    supplier,
+                    "MotorSupplier-" + (i + 1)
+            ));
         }
 
         for (int i = 0; i < config.getAccessorySuppliers(); i++) {
             PartSupplier<Accessory> supplier = new PartSupplier<>(
                     accessoryStorage,
                     Accessory::new,
-                    delays::getAccessorySupplierDelayMs,
+                    FactoryDelays::getAccessorySupplierDelayMs,
                     statistics::incrementProducedAccessories
             );
 
-            threads.add(
-                    new Thread(supplier, "AccessorySupplier-" + (i + 1))
-            );
+            threads.add(new Thread(
+                    supplier,
+                    "AccessorySupplier-" + (i + 1)
+            ));
         }
     }
 
@@ -167,15 +169,15 @@ public final class Factory {
             Dealer dealer = new Dealer(
                     i + 1,
                     autoStorage,
-                    delays::getDealerDelayMs,
                     statistics,
                     saleLogger,
                     autoStorageController
             );
 
-            threads.add(
-                    new Thread(dealer, "Dealer-" + (i + 1))
-            );
+            threads.add(new Thread(
+                    dealer,
+                    "Dealer-" + (i + 1)
+            ));
         }
     }
 }

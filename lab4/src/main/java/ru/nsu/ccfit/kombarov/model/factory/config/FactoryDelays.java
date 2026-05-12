@@ -4,69 +4,95 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public final class FactoryDelays {
 
-    private final AtomicInteger bodySupplierDelayMs;
-    private final AtomicInteger motorSupplierDelayMs;
-    private final AtomicInteger accessorySupplierDelayMs;
-    private final AtomicInteger dealerDelayMs;
-    private final AtomicInteger workerDelayMs;
+    private static final AtomicInteger bodySupplierDelayMs = new AtomicInteger();
+    private static final AtomicInteger motorSupplierDelayMs = new AtomicInteger();
+    private static final AtomicInteger accessorySupplierDelayMs = new AtomicInteger();
+    private static final AtomicInteger dealerDelayMs = new AtomicInteger();
+    private static final AtomicInteger workerDelayMs = new AtomicInteger();
 
-    public FactoryDelays(
+    public static void init(
             int bodySupplierDelayMs,
             int motorSupplierDelayMs,
             int accessorySupplierDelayMs,
             int dealerDelayMs,
             int workerDelayMs
     ) {
-        this.bodySupplierDelayMs = new AtomicInteger(requirePositive(bodySupplierDelayMs, "bodySupplierDelayMs"));
-        this.motorSupplierDelayMs = new AtomicInteger(requirePositive(motorSupplierDelayMs, "motorSupplierDelayMs"));
-        this.accessorySupplierDelayMs = new AtomicInteger(requirePositive(accessorySupplierDelayMs, "accessorySupplierDelayMs"));
-        this.dealerDelayMs = new AtomicInteger(requirePositive(dealerDelayMs, "dealerDelayMs"));
-        this.workerDelayMs = new AtomicInteger(requirePositive(workerDelayMs, "workerDelayMs"));
+        FactoryDelays.bodySupplierDelayMs.set(
+                requireNonNegative(bodySupplierDelayMs, "bodySupplierDelayMs")
+        );
+
+        FactoryDelays.motorSupplierDelayMs.set(
+                requireNonNegative(motorSupplierDelayMs, "motorSupplierDelayMs")
+        );
+
+        FactoryDelays.accessorySupplierDelayMs.set(
+                requireNonNegative(accessorySupplierDelayMs, "accessorySupplierDelayMs")
+        );
+
+        FactoryDelays.dealerDelayMs.set(
+                requireNonNegative(dealerDelayMs, "dealerDelayMs")
+        );
+
+        FactoryDelays.workerDelayMs.set(
+                requireNonNegative(workerDelayMs, "workerDelayMs")
+        );
     }
 
-    public int getBodySupplierDelayMs() {
+    public static int getBodySupplierDelayMs() {
         return bodySupplierDelayMs.get();
     }
 
-    public void setBodySupplierDelayMs(int delayMs) {
-        bodySupplierDelayMs.set(requirePositive(delayMs, "bodySupplierDelayMs"));
+    public static void setBodySupplierDelayMs(int delayMs) {
+        bodySupplierDelayMs.set(
+                requireNonNegative(delayMs, "bodySupplierDelayMs")
+        );
     }
 
-    public int getMotorSupplierDelayMs() {
+    public static int getMotorSupplierDelayMs() {
         return motorSupplierDelayMs.get();
     }
 
-    public void setMotorSupplierDelayMs(int delayMs) {
-        motorSupplierDelayMs.set(requirePositive(delayMs, "motorSupplierDelayMs"));
+    public static void setMotorSupplierDelayMs(int delayMs) {
+        motorSupplierDelayMs.set(
+                requireNonNegative(delayMs, "motorSupplierDelayMs")
+        );
     }
 
-    public int getAccessorySupplierDelayMs() {
+    public static int getAccessorySupplierDelayMs() {
         return accessorySupplierDelayMs.get();
     }
 
-    public void setAccessorySupplierDelayMs(int delayMs) {
-        accessorySupplierDelayMs.set(requirePositive(delayMs, "accessorySupplierDelayMs"));
+    public static void setAccessorySupplierDelayMs(int delayMs) {
+        accessorySupplierDelayMs.set(
+                requireNonNegative(delayMs, "accessorySupplierDelayMs")
+        );
     }
 
-    public int getDealerDelayMs() {
+    public static int getDealerDelayMs() {
         return dealerDelayMs.get();
     }
 
-    public void setDealerDelayMs(int delayMs) {
-        dealerDelayMs.set(requirePositive(delayMs, "dealerDelayMs"));
+    public static void setDealerDelayMs(int delayMs) {
+        dealerDelayMs.set(
+                requireNonNegative(delayMs, "dealerDelayMs")
+        );
     }
 
-    public int getWorkerDelayMs() {
+    public static int getWorkerDelayMs() {
         return workerDelayMs.get();
     }
 
-    public void setWorkerDelayMs(int delayMs) {
-        workerDelayMs.set(requirePositive(delayMs, "workerDelayMs"));
+    public static void setWorkerDelayMs(int delayMs) {
+        workerDelayMs.set(
+                requireNonNegative(delayMs, "workerDelayMs")
+        );
     }
 
-    private static int requirePositive(int value, String name) {
-        if (value <= 0) {
-            throw new IllegalArgumentException(name + " must be positive");
+    private static int requireNonNegative(int value, String name) {
+        if (value < 0) {
+            throw new IllegalArgumentException(
+                    name + " must be non-negative"
+            );
         }
 
         return value;

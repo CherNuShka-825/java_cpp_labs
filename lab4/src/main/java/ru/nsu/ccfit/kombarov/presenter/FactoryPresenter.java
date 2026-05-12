@@ -2,6 +2,7 @@ package ru.nsu.ccfit.kombarov.presenter;
 
 import javafx.animation.AnimationTimer;
 import ru.nsu.ccfit.kombarov.model.factory.Factory;
+import ru.nsu.ccfit.kombarov.model.factory.config.FactoryDelays;
 import ru.nsu.ccfit.kombarov.view.FactoryView;
 
 public final class FactoryPresenter {
@@ -19,35 +20,36 @@ public final class FactoryPresenter {
 
     private void initSliderBindings() {
         view.getBodyDelaySlider().valueProperty().addListener((obs, old, val) -> {
-            model.getDelays().setBodySupplierDelayMs(val.intValue());
+            FactoryDelays.setBodySupplierDelayMs(val.intValue());
             view.updateDelayLabels();
         });
 
         view.getMotorDelaySlider().valueProperty().addListener((obs, old, val) -> {
-            model.getDelays().setMotorSupplierDelayMs(val.intValue());
+            FactoryDelays.setMotorSupplierDelayMs(val.intValue());
             view.updateDelayLabels();
         });
 
         view.getAccessoryDelaySlider().valueProperty().addListener((obs, old, val) -> {
-            model.getDelays().setAccessorySupplierDelayMs(val.intValue());
+            FactoryDelays.setAccessorySupplierDelayMs(val.intValue());
             view.updateDelayLabels();
         });
 
         view.getDealerDelaySlider().valueProperty().addListener((obs, old, val) -> {
-            model.getDelays().setDealerDelayMs(val.intValue());
+            FactoryDelays.setDealerDelayMs(val.intValue());
             view.updateDelayLabels();
         });
 
         view.getWorkerDelaySlider().valueProperty().addListener((obs, old, val) -> {
-            model.getDelays().setWorkerDelayMs(val.intValue());
+            FactoryDelays.setWorkerDelayMs(val.intValue());
             view.updateDelayLabels();
         });
 
-        view.getBodyDelaySlider().setValue(model.getDelays().getBodySupplierDelayMs());
-        view.getMotorDelaySlider().setValue(model.getDelays().getMotorSupplierDelayMs());
-        view.getAccessoryDelaySlider().setValue(model.getDelays().getAccessorySupplierDelayMs());
-        view.getDealerDelaySlider().setValue(model.getDelays().getDealerDelayMs());
-        view.getWorkerDelaySlider().setValue(model.getDelays().getWorkerDelayMs());
+        view.getBodyDelaySlider().setValue(FactoryDelays.getBodySupplierDelayMs());
+        view.getMotorDelaySlider().setValue(FactoryDelays.getMotorSupplierDelayMs());
+        view.getAccessoryDelaySlider().setValue(FactoryDelays.getAccessorySupplierDelayMs());
+        view.getDealerDelaySlider().setValue(FactoryDelays.getDealerDelayMs());
+        view.getWorkerDelaySlider().setValue(FactoryDelays.getWorkerDelayMs());
+
         view.updateDelayLabels();
     }
 
@@ -55,12 +57,30 @@ public final class FactoryPresenter {
         new AnimationTimer() {
             @Override
             public void handle(long now) {
-                view.setBodyStorage(model.getBodyStorage().getSize(), model.getBodyStorage().getCapacity());
-                view.setMotorStorage(model.getMotorStorage().getSize(), model.getMotorStorage().getCapacity());
-                view.setAccessoryStorage(model.getAccessoryStorage().getSize(), model.getAccessoryStorage().getCapacity());
-                view.setAutoStorage(model.getAutoStorage().getSize(), model.getAutoStorage().getCapacity());
+                view.setBodyStorage(
+                        model.getBodyStorage().getSize(),
+                        model.getBodyStorage().getCapacity()
+                );
 
-                view.setStatistics((int) model.getStatistics().getSoldAutos(), model.getThreadPool().getQueueSize());
+                view.setMotorStorage(
+                        model.getMotorStorage().getSize(),
+                        model.getMotorStorage().getCapacity()
+                );
+
+                view.setAccessoryStorage(
+                        model.getAccessoryStorage().getSize(),
+                        model.getAccessoryStorage().getCapacity()
+                );
+
+                view.setAutoStorage(
+                        model.getAutoStorage().getSize(),
+                        model.getAutoStorage().getCapacity()
+                );
+
+                view.setStatistics(
+                        (int) model.getStatistics().getSoldAutos(),
+                        model.getThreadPool().getQueueSize()
+                );
             }
         }.start();
     }
