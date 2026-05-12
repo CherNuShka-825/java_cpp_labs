@@ -30,18 +30,6 @@ public final class FactoryStatistics {
         soldAutos.incrementAndGet();
     }
 
-    public long getProducedBodies() {
-        return producedBodies.get();
-    }
-
-    public long getProducedMotors() {
-        return producedMotors.get();
-    }
-
-    public long getProducedAccessories() {
-        return producedAccessories.get();
-    }
-
     public long getProducedAutos() {
         return producedAutos.get();
     }
